@@ -1,0 +1,20 @@
+CC = gcc
+CFLAGS = -g -Wall # flags when *compiling*
+LFLAGS = -g -Wall # flags when *linking*
+LIBS = -lm # math library
+SOURCES = invdist.c uf.c calc_fitness.c sort_population.c improvement.c operators.c hga.c
+OBJECTS = $(SOURCES:.c=.o)
+EXECUTABLE = hga
+
+all: $(EXECUTABLE)
+
+$(EXECUTABLE) : $(OBJECTS)
+	$(CC) $(LFLAGS) $(OBJECTS) -o $@ $(LIBS)
+
+%.o:%.c
+	$(CC) $(CFLAGS) -c $<
+
+clean:
+	rm -f $(OBJECTS) $(EXECUTABLE)
+	
+	

@@ -1,0 +1,166 @@
+
+Introduction
+============
+
+This directory contains the source code of the implementation of the following
+algorithms:
+- Genetic Algorithm for the SUPBR problem (SA-GA).
+- Hybrid Genetic Algorithm for the SUPBR problem (Hybrid-GA).
+
+The authors of the implementations are:
+	Jose Luis Soncco-Alvarez (jose.soncco.alvarez@gmail.com)
+	and
+	Mauricio Ayala-Rincon (ayala@unb.br)
+
+Both authors from the Group of Theory of Computation at the University of
+Brasilia.
+
+(SUPBR - "Sorting Unsigned Permutations by Reversals")
+
+Setup
+=====
+
+The source code was tested under MAC OSX and UBUNTU LINUX platforms. As first
+step we need to execute the makefile (for SA-GA):
+$ make clean all -f makefile.ga
+or (for Hybrid-GA)
+$ make clean all -f makefile.hga
+
+The previous commands will generate two executables: 
+"ga" (SA-GA) and "hga" (Hybrid-GA). 
+
+Input Data
+==========
+
+Initially, the input data was intended to be two permutations that correspond
+to the gene order of two organisms with the same gene set. We assume that the
+genes of the second organism are represented as increasing naturals, leading
+to a identity permutation. Then, we JUST NEED as input the first permutation,
+which maintains the same natural number representation for each gene but in
+the order of the first organism. 
+
+For instance, if the input data is the permutation {2,4,3,1}, it will have the 
+following format:
+4
+2
+4
+3
+1
+
+The first line is the length of the permutation, that is, the number of genes
+of an organism. The remaining lines are the gene order of an organism.
+
+The SUPBR problem consists in finding the minimum number of reversals for
+transforming an unsigned permutation into the identity permutation.
+
+Usage
+=====
+
+The two programs, "ga" and "hga", have the same parameters options:
+
+-s : seed for srand() [default: time(NULL)]
+-g : number of generations to stop program 
+     [default: -1 = number of generations is the input length ]
+-e : number of evaluations to stop program 
+     [default: -1 = this feature is not used]
+-r : number of reversals to stop program 
+     [default: -1 = this feature is not used]
+-m : print mode [default: final_result]
+        options:
+        -m final_result : print number of reversals, number of evaluations of
+                          fitness function, and number of used generations
+        -m best_by_gen  : print the best solution by generation
+        -m eval_by_gen  : print the number of evaluations of fitness function
+                          by generation
+
+Note: The input permutation must be in a file labeled as "i", in this 
+directory is included the file "i" with a permutation of length 50. 	
+
+Examples of use of "ga" (or "hga"):
+
+(1) For printing the number of reversals (1st line of output), and using as
+    stop condition a number of generations equal to the input length (number 
+    of genes):
+    $  ./ga -m final_result
+    or just
+    $ ./ga
+    The output of the previous command will also print the number of
+    evaluations of the fitness function and the number of used generations 
+    at the 2nd and 3rd line of the output.
+(2) The same as (1), and fixing the seed (say 77) for the rand() function.
+    $ ./ga -s 77 -m final_result
+    The output of the previous command will print always the same number of
+    reversals, change the seed to see a different output.
+(3) For printing the number of reversals, and using as stop condition a number
+    of generations equal to some number (say 100):
+    $ ./ga -g 100 -m final_result
+(4) For printing the number of reversals, and using as stop condition a number
+    of evaluations of the fitness function (say 1000):
+    $ ./ga -e 1000 -m final_result
+    Note that in case the program does not reach the number of specified
+    evaluations, the program will use as stop condition the number of
+    generations.
+(5) For printing the number of reversals, and using as stop condition a number
+    of generations (say 100), or a number of evaluations (say 1500), or a
+    number of reversals (say 40):
+    $ ./ga -g 100 -e 1500 -r 40 -m final_result
+    Note that the program will stop if one of the stop conditions is met.
+(6) For printing the best solution by generation:
+    $ ./ga -best_by_gen
+    Note that the stop condition is a number of generations equal to the
+    input length.
+(7) For printing the number of evaluations of the fitness function by
+    generation:
+    $ ./ga -eval_by_gen
+    Note that the stop condition is a number of generations equal to the
+    input length.
+
+About the Files
+===============
+
+ga.c                : This file contains the main function for executing the
+                      genetic algorithm (SA-GA).
+
+hga.c               : This file contains the main function for executing the 
+                      hybrid genetic algorithm (Hybrid-GA).
+
+operators.c         : This file contains the breeding operators such as
+                      crossover and mutation.
+
+calc_fitness.c      : This file contains a function that calls the 
+                      "invdist_circular_nomem" function for calculating the
+                      fitness of an individual.
+
+improvement.c       : This file contains the function with the heuristic of 
+                      elimination of two breakpoints.
+
+sort_population.c   : This file contains the function for sorting the
+                      population by using the counting sort algorithm.
+
+structs_ga.h        : This file contains the structures used by the genetic 
+                      algorithm and its hybrid version.
+
+invdist.c           : This file contains the linear time algorithm for
+                      computing the reversal distance for signed permutations.
+                      This file was taken from GRAPPA software.
+
+uf.c                : This file contains some functions used in "invdist.c"
+
+structs.h           : This file contains structures used in "invdist.c"
+
+References
+==========
+
+(1) Soncco-Alvarez, J. L., & Ayala-Rincon, M. (2013). Sorting permutations by
+    reversals through a hybrid genetic algorithm based on breakpoint
+    elimination and exact solutions for signed permutations. Electronic Notes
+    in Theoretical Computer Science, 292, 119-133.
+
+
+Bug Reporting
+=============
+
+If you find any problem in our programs please contact us to: 
+jose.soncco.alvarez@gmail.com
+
+-------------------------------------------------------------------------------
